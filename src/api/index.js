@@ -155,3 +155,43 @@ export async function newActivity(name, description, token){
     }
 }
 
+export async function routineUpdate(name, goal, id, token){
+    try {
+        const response = await fetch(`${APIURL}/routines/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            method: "PATCH",
+            body: JSON.stringify({
+                name: name,
+                goal: goal,
+                isPublic: true,
+            }),
+        });
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function activityUpdate(name, description, token, id){
+    try {
+        const response = await fetch(`${APIURL}/activities/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            method: "PATCH",
+            body: JSON.stringify({
+                name: name,
+                description: description,
+            }),
+        });
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
