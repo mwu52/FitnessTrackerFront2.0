@@ -195,3 +195,90 @@ export async function activityUpdate(name, description, token, id){
         throw error;
     }
 }
+
+export async function removeRoutine(id, token){
+    try {
+        const reponse = await fetch(`${APIURL}/routines/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function routineActivity(id){
+    try {
+        const response = await fetch(`${APIURL}/activities/${id}/routines`, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function activityAttach(activityId, count, duration, routineId){
+    try {
+        const response = await fetch(`${APIURL}/routines/${routineId}/activities`, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify({
+                activityId: activityId,
+                count: count,
+                duration: duration,
+            }),
+        });
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function updateRoutineActivity(count, duration, id, token){
+    try{
+        const response = await fetch(`${APIURL}/routine_activities/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            method: "PATCH",
+            body: JSON.stringify({
+                count: count,
+                duration: duration,
+            }),
+        });
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function removeRoutineActivity(routineActivityId, token){
+    try {
+        const response = await fetch(
+            `${APIURL}/routine_activities/${routineActivityId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const result = await response.json();
+            return result;
+    } catch (error) {
+        throw error;
+    }
+}
