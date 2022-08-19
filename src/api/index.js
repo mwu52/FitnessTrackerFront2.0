@@ -1,8 +1,8 @@
-const APIURL = `https://fitnesstrac-kr.herokuapp.com/`;
+const APIURL = `https://fitnesstrac-kr.herokuapp.com/api/`;
 
 export async function getToken(token){
     try {
-        const response = await fetch(`${APIURL}/api/users/me`, {
+        const response = await fetch(`${APIURL}/users/me`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -18,7 +18,7 @@ export async function getToken(token){
 
 export async function registerUser(username, password){
     try {
-        const response = await fetch(`${APIURL}/api/users/register`,{
+        const response = await fetch(`${APIURL}/users/register`,{
             method: "POST",
             headers:{
                 "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export async function registerUser(username, password){
 
 export async function userLogin(username, password){
     try {
-        const response = await fetch(`${APIURL}/api/users/login`, {
+        const response = await fetch(`${APIURL}/users/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -65,6 +65,91 @@ export async function userLogin(username, password){
             localStorage.setItem("id", Id);
             return result;
         }
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function Routines(){
+    try {
+        const response = await fetch (`${APIURL}/routines`, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function Activities(){
+    try {
+        const response = await fetch(`${APIURL}/activities`, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+        let result = await response.json();
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function myRoutines(token){
+    try {
+        const response = await fetch(`${APIURL}/users/${localStorage.getItem("username")}/routines`,{
+            headers:{
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function newRoutine(name, goal, token){
+    try {
+        const response = await fetch(`${APIURL}/routines`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            method: "POST",
+            body: JSON.stringify({
+                name: name,
+                goal: goal,
+                isPublic: true,
+            }),
+        });
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+export async function newActivity(name, description, token){
+    try {
+        const response = await fetch(`${APIURL}/activities`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            method: "POST",
+            body: JSON.stringify({
+                name: name,
+                description: description,
+            }),
+        });
+        const result = await response.json();
+        return result;
     } catch (error) {
         throw error;
     }
